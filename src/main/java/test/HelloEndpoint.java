@@ -40,13 +40,13 @@ public class HelloEndpoint {
         IsuePoint isuePoint = new IsuePoint();
         ProductGroup productGroup = new ProductGroup();
 
-        user.setUsername("FirstUser");
+        user.setUsername("User" +String.valueOf(random.nextInt()));
         user.setUserphone("88005553535");
 
         userRepository.save(user);
 
-        isuePoint.setIsuePointName("FirstPoint");
-        isuePoint.setAddress("Lenina 20");
+        isuePoint.setIsuePointName("Point" +String.valueOf(random.nextInt()));
+        isuePoint.setAddress("Lenina" +String.valueOf(random.nextInt()));
         isuePointRepository.save(isuePoint);
 
         productGroup.setProductGroupName("GoodProducts");
@@ -54,56 +54,52 @@ public class HelloEndpoint {
         productGroupRepository.save(productGroup);
 
 
-        for(int i = 0; i<=5; i++) {
-            {
-            Set<Order> order = new HashSet<Order>();
+        for(Integer i = 0; i<=5; i++) {
             Order order1 = new Order();
+            Product product = new Product();
+
+            Set<Order> order = new HashSet<Order>();
+
             order1.setUser(user);
             order1.setIsuePoint(isuePoint);
-            order1.setPhone("8- "+String.valueOf(random.nextInt()));
-            order1.setRemark("Remark "+String.valueOf(random.nextInt()));
+            order1.setPhone("8- " + String.valueOf(random.nextInt()));
+            order1.setRemark("Remark " + i.toString());
 
             user.setOrder(order);
             isuePoint.setOrder(order);
-            orderRepository.save(order1);}
+            orderRepository.save(order1);
 
-
-
-        }
-
-        for(int i = 0; i<=5; i++){
             Set<Product> products = new HashSet<Product>();
             productGroup.setProduct(products);
 
-            Product product = new Product();
+
             product.setProductGroup(productGroup);
             product.setProductName(String.valueOf(random.nextInt()));
             product.setProductPrice(random.nextInt());
 
             productRepository.save(product);
+
+            if (i == 5) {
+                for(int j=0;j<=5; j++){
+                    OrderPos orderPos = new OrderPos();
+                    order1.setOrderPoses(new HashSet<OrderPos>());
+                    product.setOrderPos(new HashSet<OrderPos>());
+
+
+                    orderPos.setPrice(random.nextDouble());
+                    orderPos.setQuantity(random.nextInt());
+                    orderPos.setGoodName(String.valueOf(random.nextInt()));
+
+                    orderPos.setOrder(order1);
+                    orderPos.setProduct(product);
+
+                    orderPosRepository.save(orderPos);
+                }
+
+
+            }
+
         }
-
-
-        for(int j = 0; j<=5; j++){
-            Order order = new Order();
-            Product product = new Product();
-
-            Set<OrderPos> orderPoses = new HashSet<OrderPos>();
-            OrderPos orderPos = new OrderPos();
-
-            orderPos.setOrder(order);
-            orderPos.setProduct(product);
-
-            orderPos.setPrice(random.nextDouble());
-            orderPos.setQuantity(random.nextInt());
-            orderPos.setGoodName(String.valueOf(random.nextInt()));
-
-            order.setOrderPoses(orderPoses);
-            product.setOrderPos(orderPoses);
-            orderPosRepository.save(orderPos);
-
-        }
-
 
         return "OK";
     }

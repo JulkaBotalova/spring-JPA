@@ -30,9 +30,9 @@ public class OrderPos {
     @JoinColumn (name = "PRODUCT_ID", nullable = false)
     private Product product;
 
-    public Product getProduct() {
+   /* public Product getProduct() {
         return product;
-    }
+    }*/
 
     public void setProduct(Product product) {
         this.product = product;
@@ -70,9 +70,9 @@ public class OrderPos {
         this.goodName = goodName;
     }
 
-    public Order getOrder() {
+    /*public Order getOrder() {
         return order;
-    }
+    }*/
 
     public void setOrder(Order order) {
         this.order = order;
